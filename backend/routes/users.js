@@ -1,52 +1,75 @@
 var express = require('express');
 var router = express.Router();
+const UserModel = require('../models/user-model');
 
 
-router.get('/', function(req, res, next) {
+router.get('/', async (req, res, next) => {
 
   // HÄMTA ALLA USERS // SKICKA INTE MED LÖSENORD // BARA ID, NAMN + EMAIL PÅ ALLA USERS
 
-  res.send('respond with a resource');
+  try {
+    const users = await UserModel.find().select('-password');
+    res.status(200).json(users)
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Something went wrong' });
+  }
 });
 
 
-router.post('/', function(req, res, next) {
+
+router.post('/', async(req, res, next)  => {
 
   // HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
 
-/*   {
-    "id": "// EN USER ID"
-  } */
+  try {
+    const user = await UserModel.findById({_id: req.body.id});
+    
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+    }
 
-  res.send('respond with a resource');
+    res.status(200).json(user);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
-router.post('/add', function(req, res, next) {
-
+router.post('/add', async(req, res, next) => {
+  
   // SKAPA USER
 
-/*   {
-    "name": "Test Testsson",
-    "email": "test@mail.com",
-    "password": "test"
-  } */
-
-  res.send('respond with a resource');
+  try {
+    const user = await UserModel.create(req.body);
+    res.status(201).json(user)
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Something went wrong' });
+  }
 });
 
 
-router.post('/login', function(req, res, next) {
+
+router.post('/login', async (req, res, next) => {
 
   // LOGGA IN USER
+
+  try {
+    const user = await UserModel.create(req.body);
+    res.status(201).json(user)
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Something went wrong' });
+  }
 
 /*   {
     "email": "// EN USER EMAIL",
     "password": "// EN USER PASSWORD"
   } */
 
-
-  res.send('respond with a resource');
 });
 
 module.exports = router;

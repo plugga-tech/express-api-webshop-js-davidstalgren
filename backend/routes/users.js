@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const crypto = require('crypto-js');
 const UserModel = require('../models/user-model');
 
 
@@ -43,7 +44,10 @@ router.post('/add', async(req, res, next) => {
   // SKAPA USER
 
   try {
-    const user = await UserModel.create(req.body);
+    const { name, email, password } = req.body;
+    const hashedPassword = crypto.SHA3(password).toString();
+    const user = new UserModel({name, email, "password": hashedPassword})
+    await user.save();
     res.status(201).json(user)
   } catch (error) {
     console.log(error);
@@ -58,18 +62,24 @@ router.post('/login', async (req, res, next) => {
   // LOGGA IN USER
 
   try {
-    const user = await UserModel.create(req.body);
-    res.status(201).json(user)
+    const user = await UserModel.findOne({email: req.body.email});
+
+    if (!user) {
+      res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    const hashedPassword = crypto.SHA3(req.body.password).toString();
+    
+    if (hashedPassword == user.password) {
+      res.status(200).json({ message: 'Login successful' });
+    } else {
+      res.status(401).json({ message: 'Invalid email or password' });
+    }
+
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: 'Something went wrong' });
   }
-
-/*   {
-    "email": "// EN USER EMAIL",
-    "password": "// EN USER PASSWORD"
-  } */
-
 });
 
 module.exports = router;

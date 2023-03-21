@@ -1,35 +1,53 @@
 var express = require('express');
 var router = express.Router();
+const ProductModel = require('../models/product-model');
 
 
-router.get('/', function(req, res, next) {
+router.get('/', async(req, res, next) => {
 
   // HÄMTA ALLA PRODUKTER
 
-  res.send('respond with a resource');
+  try {
+    const products = await ProductModel.find();
+    res.status(200).json(products)
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Something went wrong' });
+  }
 });
 
 
-router.get('/productID', function(req, res, next) {
+router.get('/:id', async(req, res, next) => {
 
   // HÄMTA SPECIFIK PRODUKT
 
-  res.send('respond with a resource');
+  try {
+    const product = await ProductModel.findById({_id: req.params.id});
+    
+    if (!product) {
+      res.status(404).json({ error: 'Product not found' });
+    }
+
+    res.status(200).json(product);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
-router.post('/add', function(req, res, next) {
+router.post('/add', async (req, res, next) => {
 
   // SKAPA PRODUKT
 
-/*   {
-    "name": "Produkt 1",
-    "description": "Beskrivning av produkt 1",
-    "price": 100, 
-    "lager": 10
-  } */
-
-  res.send('respond with a resource');
+  try {
+    const product = await ProductModel.create(req.body);
+    res.status(201).json(product)
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: 'Something went wrong' });
+  }
 });
 
 

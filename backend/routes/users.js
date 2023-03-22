@@ -26,14 +26,14 @@ router.post('/', async(req, res, next)  => {
   try {
     const user = await UserModel.findById({_id: req.body.id});
     
-    if (!user) {
+    if (user) {
+      res.status(200).json(user);
+    } else {
       res.status(404).json({ error: 'User not found' });
     }
 
-    res.status(200).json(user);
-
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

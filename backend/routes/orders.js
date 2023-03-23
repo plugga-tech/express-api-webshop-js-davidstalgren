@@ -16,7 +16,8 @@ router.post('/add', async(req, res, next) => {
       console.log(product);
 
       if (product.lager < item.quantity) {
-        console.log('insufficient stock');
+        res.status(400).json({ message: `insufficient stock for ${product._id}` });
+        return;
       };
 
       product.lager -= item.quantity;
@@ -24,19 +25,12 @@ router.post('/add', async(req, res, next) => {
     };
     const order = new OrderModel(req.body);
     await order.save();
+    res.status(201).json(order);
 
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: 'Something went wrong' });
   }
-
-  /* try {
-    const order = await OrderModel.create(req.body);
-    res.status(201).json(order)
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: 'Something went wrong' });
-  } */
 });
 
 

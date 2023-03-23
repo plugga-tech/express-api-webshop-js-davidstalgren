@@ -83,11 +83,11 @@ Content-Type: application/json
       "products": [
     {
       "productId": "6419c6246c832c92b189b4de",
-      "quantity": 3
+      "quantity": 1
     },
     {
       "productId": "6419c6386c832c92b189b4e0",
-      "quantity": 3
+      "quantity": 1
     }
   ]
 }

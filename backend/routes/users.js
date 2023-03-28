@@ -3,7 +3,7 @@ var router = express.Router();
 const crypto = require('crypto-js');
 const UserModel = require('../models/user-model');
 
-
+// Bra! Gör det du ska!
 router.get('/', async (req, res, next) => {
 
   // HÄMTA ALLA USERS // SKICKA INTE MED LÖSENORD // BARA ID, NAMN + EMAIL PÅ ALLA USERS
@@ -19,6 +19,8 @@ router.get('/', async (req, res, next) => {
 
 
 
+
+// Bra! Gör det du ska och fångar eventuella fel!
 router.post('/', async(req, res, next)  => {
 
   // HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
@@ -39,6 +41,7 @@ router.post('/', async(req, res, next)  => {
 });
 
 
+// Snyggt med krypterat lösenord också!
 router.post('/add', async(req, res, next) => {
   
   // SKAPA USER
@@ -56,7 +59,7 @@ router.post('/add', async(req, res, next) => {
 });
 
 
-
+// Bra gjort!
 router.post('/login', async (req, res, next) => {
 
   // LOGGA IN USER
@@ -64,7 +67,7 @@ router.post('/login', async (req, res, next) => {
   try {
     const user = await UserModel.findOne({email: req.body.email});
 
-    if (!user) {
+    if (!user) { //bättre message vore kanske 'user/email not found'
       res.status(401).json({ message: 'Invalid email or password' });
     }
 
@@ -72,7 +75,7 @@ router.post('/login', async (req, res, next) => {
     
     if (hashedPassword == user.password) {
       res.status(200).json({ message: 'Login successful' });
-    } else {
+    } else { //samma här bättre message vore kanske 'wrong password'
       res.status(401).json({ message: 'Invalid email or password' });
     }
 

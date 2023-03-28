@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Bra! 
 const OrderSchema = mongoose.Schema({
     user: {
         type: String,

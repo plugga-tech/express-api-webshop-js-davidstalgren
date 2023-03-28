@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const ProductModel = require('../models/product-model');
 
-
+// Bra!
 router.get('/', async(req, res, next) => {
 
   // HÄMTA ALLA PRODUKTER
@@ -16,7 +16,7 @@ router.get('/', async(req, res, next) => {
   }
 });
 
-
+// Bra!
 router.get('/:id', async(req, res, next) => {
 
   // HÄMTA SPECIFIK PRODUKT
@@ -36,7 +36,7 @@ router.get('/:id', async(req, res, next) => {
   }
 });
 
-
+// Bra!
 router.post('/add', async (req, res, next) => {
 
   // SKAPA PRODUKT

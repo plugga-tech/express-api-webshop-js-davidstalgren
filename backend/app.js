@@ -11,6 +11,7 @@ var ordersRouter = require('./routes/orders');
 
 var app = express();
 
+// Bra med try/catch och användning av Mongoose!
 async function init() {
     try {
         await mongoose.connect('mongodb://127.0.0.1:27017/david-stalgren')
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+// Jag gjorde en variabel av "api", kanske kan vara bra ifall saker ändras
 app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/orders', ordersRouter);

@@ -3,6 +3,7 @@ var router = express.Router();
 const OrderModel = require('../models/order-model');
 const ProductModel = require('../models/product-model');
 
+// Snyggt!
 
 router.post('/add', async(req, res, next) => {
 
@@ -11,6 +12,7 @@ router.post('/add', async(req, res, next) => {
   try {
     const { products } = req.body;
 
+    // Inser nu själv att jag glömt göra denna check i min egen kod, tack och bra jobbat!
     for (const item of products) {
       const product = await ProductModel.findById(item.productId);
       console.log(product);
@@ -33,7 +35,7 @@ router.post('/add', async(req, res, next) => {
   }
 });
 
-
+// Bra!
 router.get('/all', async (req, res, next) => {
 
   // HÄMTA ALLA ORDERS
